@@ -8,9 +8,10 @@ import bluebird from 'bluebird';
 import config from './config';
 import authRoute from './routes/auth';
 import userRoute from './routes/user';
+import questionRoute from './routes/question';
 import errorHandler from './middlewares/errorHandler';
 import checkToken from './middlewares/checkToken';
-
+import getUser from './middlewares/getUser';
 
 const app = express();
 mongoose.Promise = bluebird;
@@ -37,6 +38,9 @@ app.use(session({
 
 app.use('/api', authRoute);
 app.use('/api', checkToken, userRoute);
+app.use('/api', checkToken, questionRoute);
+app.use(getUser);
+
 app.use('/test', checkToken, (req, res) => {
 	res.json('test');
 });
