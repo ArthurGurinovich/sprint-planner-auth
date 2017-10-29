@@ -3,18 +3,20 @@ import config from '../config/index';
 
 export default async (req, res, next) => {
 	const token = req.headers['sp-token'];
-	console.log(req.headers);
 	if(!token){
-		return res
-			.status(403)
-			.json({ message: 'Forbidden. Not token!' });
+		return next({
+			status: 403,
+			message: 'Forbidden. Not token!'
+		});
 	}
 	try{
 		var tokenObj = jwt.verify(token, config.secret);
 	}catch (message){
-		return res
-			.status(400)
-			.json({ message: 'Invalid token!' });
+		return next({
+			status: 400,
+			message: 'Invalid token!'
+		});
 	}
+	req.token = tokenObj;
 	next();
 }
