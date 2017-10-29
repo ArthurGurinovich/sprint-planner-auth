@@ -7,6 +7,7 @@ const UserSchema  = new Schema({
 });
 
 UserSchema.pre('save', async function(next){
+	// const this = user;
 	// if(!this.isModifed('password')){
 	// 	return next();
 	// }

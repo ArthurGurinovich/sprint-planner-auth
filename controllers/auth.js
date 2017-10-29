@@ -1,4 +1,10 @@
+import jwt from 'jsonwebtoken';
+
 import User from '../models/user';
+import config from '../config/index';
+
+
+
 
 export const signup = async (req, res, next) => {
 	const credentials = req.body;
@@ -34,6 +40,7 @@ export const signin = async (req, res, next) => {
 			message: 'Bad credentials!'
 		});
 	}
-req.session.userID = user._id;
-res.json(user);
+//req.session.userID = user._id;
+const token = jwt.sign({ _id: user._id}, config.secret);
+res.json(token);
 }
