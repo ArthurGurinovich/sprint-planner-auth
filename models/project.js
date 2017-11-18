@@ -10,4 +10,4 @@ const ProjectSchema = new Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }); 
 
-export default mongoose.model('Project', QuestionSchema);
+export default mongoose.model('Project', ProjectSchema);
