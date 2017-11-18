@@ -19,10 +19,9 @@ export async function createProject(req, res, next){
 
 export async function updateProject(req, res, next){
 	const projectData = req.body;
-	const { url }= req.params.url;
-	const userId  = req.user._id 
+	const _id = req.params.id;
 	try{
-		var project = await Project.findOne({ url });
+		var project = await Project.findOne({ _id });
 	}catch({ message }){
 		return next({
 			status: 500,
@@ -37,15 +36,8 @@ export async function updateProject(req, res, next){
 		});
 	}
 
-	if(userId.toString() !== project.userId.toString()){
-		return next({
-			status: 403,
-			message: 'Permission Denied'
-		});
-	}
-
 	try{
-		project.updateOne(projectData);
+		project.update(projectData);
 	}catch({ message }){
 		return next({
 			status: 500,
@@ -69,9 +61,9 @@ export async function getAllProject(req, res, next){
 }
 
 export async function getProject(req, res, next){
-	const url = req.params.url;
+	const _id = req.params.id;
 	try{
-		var project = await Project.findOne({ url });
+		var project = await Project.findOne({ _id });
 	}catch({ message }){
 		return next({
 			status: 500,
@@ -113,7 +105,6 @@ export async function getProjectByUserLogin(req, res, next){
 
 export async function deleteProject(req, res, next){
 	const _id = req.params.id;
-	const userId  = req.user._id 
 	try{
 		var project = await Project.findOne({ _id });
 	}catch({ message }){
@@ -122,18 +113,10 @@ export async function deleteProject(req, res, next){
 			message
 		});
 	}
-
 	if(!project){
 		return next({
 			status: 404,
 			message: 'Project not found!'
-		});
-	}
-
-	if(userId.toString() !== project.userId.toString()){
-		return next({
-			status: 403,
-			message: 'Permission Denied'
 		});
 	}
 	try{

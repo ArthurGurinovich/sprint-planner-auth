@@ -4,6 +4,7 @@ import bcrypt  from 'bcrypt-as-promised';
 const UserSchema  = new Schema({
 	login: { type: String, unique: true, lowercase: false, index: true},
 	password: String,
+	email: String,
 	position: String,
 	status: String
 });

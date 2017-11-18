@@ -11,8 +11,8 @@ import config from './config';
 
 import authRoute from './routes/auth';
 import userRoute from './routes/user';
-// import projectRoute from './routes/project';
-// import storyRoute from './routes/story';
+import projectRoute from './routes/project';
+import storyRoute from './routes/story';
 import questionRoute from './routes/question';
 
 
@@ -45,8 +45,8 @@ app.use(session({
 
 app.use('/api', authRoute);
 app.use('/api', checkToken, userRoute);
-// app.use('/api', checkToken, projectRoute);
-// app.use('/api', checkToken, storyRoute);
+app.use('/api', checkToken, projectRoute);
+app.use('/api', checkToken, storyRoute);
 app.use('/api', checkToken, questionRoute);
 
 
@@ -54,8 +54,8 @@ app.use('/api', checkToken, questionRoute);
 app.use(getUser);
 app.get(errorHandler);
 
-// app.get('*', async (req, res)5 => {
-// res.end('Hello!');
+// app.get('*', async (req, res) => {
+// 	res.json('user');
 // });
 
 

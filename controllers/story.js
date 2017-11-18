@@ -19,10 +19,9 @@ export async function createStory(req, res, next){
 
 export async function updateStory(req, res, next){
 	const storyData = req.body;
-	const { url }= req.params.url;
-	const userId  = req.user._id 
+	const _id= req.params.id;
 	try{
-		var story = await Story.findOne({ url });
+		var story = await Story.findOne({ _id });
 	}catch({ message }){
 		return next({
 			status: 500,
@@ -34,13 +33,6 @@ export async function updateStory(req, res, next){
 		return next({
 			status: 404,
 			message: 'Story not found!'
-		});
-	}
-
-	if(userId.toString() !== story.userId.toString()){
-		return next({
-			status: 403,
-			message: 'Permission Denied'
 		});
 	}
 
@@ -58,20 +50,20 @@ export async function updateStory(req, res, next){
 
 export async function getAllStories(req, res, next){
 	try{
-		var storys = await Story.find({});
+		var stories = await Story.find({});
 	}catch({ message }){
 		return next({
 			status: 500,
 			message
 		});
 	}
-	res.json({storys});
+	res.json({stories});
 }
 
 export async function getStory(req, res, next){
-	const url = req.params.url;
+	const _id = req.params.id;
 	try{
-		var story = await Story.findOne({ url });
+		var story = await Story.findOne({ _id });
 	}catch({ message }){
 		return next({
 			status: 500,
@@ -88,7 +80,7 @@ export async function getStoryByUserLogin(req, res, next){
 		var user = await User.findOne({ login });
 	}catch({ message }){
 		return next({
-			status: 500,
+			status: 508,
 			message: 'Something went wrong on server side!'
 		});
 	}
@@ -100,7 +92,7 @@ export async function getStoryByUserLogin(req, res, next){
 		});
 	}
 	try{
-		var storys = await Story.find({ userId: user._id });
+		var stories = await Story.find({ userId: user._id });
 	}catch({ message }){
 		return next({
 			status: 500,
@@ -108,12 +100,11 @@ export async function getStoryByUserLogin(req, res, next){
 		});
 	}
 
-	res.json({ storys });
+	res.json( stories );
 }
 
 export async function deleteStory(req, res, next){
 	const _id = req.params.id;
-	const userId  = req.user._id 
 	try{
 		var story = await Story.findOne({ _id });
 	}catch({ message }){
@@ -130,12 +121,6 @@ export async function deleteStory(req, res, next){
 		});
 	}
 
-	if(userId.toString() !== story.userId.toString()){
-		return next({
-			status: 403,
-			message: 'Permission Denied'
-		});
-	}
 	try{
 		story.remove();
 	}catch({ message }){
