@@ -4,6 +4,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import bluebird from 'bluebird';
+import cors from 'cors';
 
 import config from './config';
 
@@ -41,6 +42,24 @@ app.use(session({
 	saveUninitialized: true,
 	secret: config.secret
 }));
+
+var options = {
+  origin: true,
+  methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
+  credentials: true,
+  maxAge: 3600
+};
+
+
+
+app.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+app.options(['/api'], cors(options));
+
 
 
 app.use('/api', authRoute);
