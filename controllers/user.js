@@ -1,5 +1,5 @@
 import User from '../models/user';
-import * as UserService from '../services/UserService';
+import * as UserService from '../services/userService';
 
 export async function getCurrentUser(req, res, next) {
   const { token } = req;

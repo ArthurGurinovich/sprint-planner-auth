@@ -1,4 +1,4 @@
-import * as USerService from '../services/UserService';
+import * as UserService from '../services/userService';
 
 
 export default async function(req, res, next){
